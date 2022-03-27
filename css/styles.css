@@ -1,0 +1,106 @@
+body{
+    /* background-color: rgb(228, 238, 252); */
+}
+
+/* fonts Settings*/
+#display-result{
+    font-size: 30px;
+    margin: 15px 0px;
+}
+
+#display-operation{
+    color: rgb(124, 135, 160);
+}
+
+
+
+.calc-frame{
+    border: 3px solid rgb(241, 247, 255);
+    border-radius:18px;
+    background-color: rgb(248, 248, 248);
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5%;
+    width: 20vw;
+}
+
+.display{
+    border: 1px solid rgba(0, 217, 255, 0.30);
+    background-color: rgba(0, 255, 255, 0.055);
+    border-radius: 10px;
+    box-shadow: 
+        inset 0 -1.5em 3em rgba(133, 200, 255, 0.075),
+        5px 5px 6px 1px rgba(112, 186, 255, 0.100);
+    margin: 3% 4.5%;
+    padding: 0% 2.5%;
+    align-self: stretch;
+    height: 6vw;
+    color: blue;
+
+    text-align: right;
+}
+
+.buttons-container{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: stretch;
+    align-content: stretch;
+    width: 18vw;
+    height: 27vw;
+}
+
+.button{
+    box-shadow: 
+        inset 0 -1.5em 3em rgba(173, 218, 255, 0.075),
+        5px 5px 6px 1px rgba(112, 186, 255, 0.100);
+    border-radius: 20px;
+    width: 4vw; 
+    height: 4vw;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+
+@media (max-width: 1200px){
+    .calc-frame{
+        width: 38vw;
+    }
+
+    .display{
+        height: 12vw;
+    }
+
+    .buttons-container{
+        width: 36vw; 
+        height: 54vw;
+    }
+
+    .button{
+        width: 8vw; 
+        height: 8vw;
+    }
+}
+
+@media (max-width: 500px){
+    .calc-frame{
+        width: 75vw;
+    }
+
+    .display{
+        height: 23vw;
+    }
+
+    .buttons-container{
+        width: 70vw; 
+        height: 105vw;
+    }
+
+    .button{
+        width: 15vw; 
+        height: 15vw;
+    }
+}
