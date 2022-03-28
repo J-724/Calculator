@@ -14,7 +14,7 @@ const pointButton = document.getElementById('calc-buttonDot');
 const changeButton = document.getElementById('calc-buttonChange')
 
 window.addEventListener('keydown',getKeybordImput);
-numberButtons.forEach(numbers => numbers.addEventListener('click', addNumber));
+numberButtons.forEach(numbers => numbers.addEventListener('click', (e) => addNumber(e.target.textContent)));
 operationButtons.forEach(operations => operations.addEventListener('click', () => setOperation(operations.textContent)));
 equalButton.addEventListener('click', () => setOperation(operation));
 clearButton.addEventListener('click', clear);
@@ -22,15 +22,23 @@ deleteButton.addEventListener('click', del);
 pointButton.addEventListener('click', addPoint);
 changeButton.addEventListener('click', change);
 
-
-
+function getKeybordImput(e){
+    if (e.key >= 0 && e.key <= 9) addNumber(e.key);
+    if (e.key === '.') addPoint();
+    if (e.key === '=' || e.key === 'Enter') setOperation(operation);
+    if (e.key === 'Backspace') del();
+    if (e.key === 'Escape') clear();
+    if (e.key === '+' || e.key === '-' || e.key === '/' || e.key === '%') setOperation(e.key);
+    if (e.key === '*') setOperation('x');
+    if (e.key === '^') setOperation('Pow');
+}
 
 function updateDisplay(){
     operationString= `${firstTerm}${operation}${secondTerm}`;
     const displayOP = document.getElementById('display-operation');
     const displayResult = document.getElementById('display-result');
     if (result){
-        if (result.toString()>=15) result = 'Out of Space';
+        if (result.toString().length>=15) result = 'Out of Space';
         displayOP.textContent= `Answer ${operation} ${secondTerm}`;
         displayResult.textContent=`${result}`;
     } else {
@@ -39,13 +47,13 @@ function updateDisplay(){
     }  
 }
 
-function addNumber(e){
+function addNumber(number){
     if (operationString.length >= 27) return;
     if ((!firstTerm) || (!operation)){
-        firstTerm += e.target.textContent;
+        firstTerm += number;
         console.log(firstTerm);
     } else {
-        secondTerm += e.target.textContent;
+        secondTerm += number;
         console.log(secondTerm);
     }updateDisplay();    
 }
