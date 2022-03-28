@@ -3,6 +3,7 @@ let firstTerm = '';
 let secondTerm = '';
 let operation = '';
 let result='';
+let operationString= '';
 
 const numberButtons = document.querySelectorAll('[data-buttonType="number"]'); 
 const operationButtons = document.querySelectorAll('[data-buttonType="operation"]');
@@ -10,53 +11,58 @@ const equalButton = document.getElementById('calc-buttonEqual');
 const clearButton = document.getElementById('calc-buttonClear');
 const deleteButton = document.getElementById('calc-buttonDel');
 const pointButton = document.getElementById('calc-buttonDot');
+const changeButton = document.getElementById('calc-buttonChange')
 
+window.addEventListener('keydown',getKeybordImput);
 numberButtons.forEach(numbers => numbers.addEventListener('click', addNumber));
 operationButtons.forEach(operations => operations.addEventListener('click', () => setOperation(operations.textContent)));
 equalButton.addEventListener('click', () => setOperation(operation));
 clearButton.addEventListener('click', clear);
 deleteButton.addEventListener('click', del);
 pointButton.addEventListener('click', addPoint);
+changeButton.addEventListener('click', change);
 
-function del(){
-    if (!secondTerm){
-        firstTerm = firstTerm.slice(0,-1);
-    } else{
-        secondTerm = secondTerm.slice(0,-1);
-    }
-    updateDisplay();
-}
+
+
 
 function updateDisplay(){
-    const displayOP = document.getElementById('display-operation').textContent= `${firstTerm}${operation}${secondTerm}`;
-    const displayResult = document.getElementById('display-result')
+    operationString= `${firstTerm}${operation}${secondTerm}`;
+    const displayOP = document.getElementById('display-operation');
+    const displayResult = document.getElementById('display-result');
     if (result){
+        if (result.toString()>=15) result = 'Out of Space';
+        displayOP.textContent= `Answer ${operation} ${secondTerm}`;
         displayResult.textContent=`${result}`;
     } else {
+        displayOP.textContent= `${firstTerm} ${operation} ${secondTerm}`;
         displayResult.textContent='0';
-    }        
+    }  
 }
 
 function addNumber(e){
+    if (operationString.length >= 27) return;
     if ((!firstTerm) || (!operation)){
         firstTerm += e.target.textContent;
         console.log(firstTerm);
     } else {
         secondTerm += e.target.textContent;
-        console.log(secondTerm)
-    }
-    updateDisplay();    
+        console.log(secondTerm);
+    }updateDisplay();    
 }
 
 function setOperation(op){
-    if (firstTerm){
+    if (result=='Out of Space') clear();
+    if (!firstTerm && op=='-'){
+        firstTerm='-';
+        updateDisplay();
+        return
+    } else if (firstTerm){
         if (firstTerm && secondTerm){
             result = makeOperation(operation,parseFloat(firstTerm),parseFloat(secondTerm));
             console.log(result);
-        }else if((op=='Sqr')
+        }else if((op=='Sqrt')
                 ||(op=='1/x')
-                ||(op=='log')
-                ||(op=='+/-')){
+                ||(op=='log')){
             result = makeOperation(op,parseFloat(firstTerm),parseFloat(secondTerm));
             console.log(result);     
         }
@@ -72,37 +78,26 @@ function setOperation(op){
 
 function makeOperation(operation,a,b){
     console.log(`First: ${a}   Second:${b}`);
-    if (operation!='+/-'){
-        switch (operation){
-            case '+':
-                return sum(a,b);
-            case '-':
-                return rest(a,b);
-            case 'x':
-                return multiply(a,b);
-            case '/':
-                return divide(a,b);
-            case '%':
-                return porcentage(a,b);
-            case 'Sqr':
-                return sqRoot(a,b);        
-            case 'Pow':
-                return pow(a,b);
-            case '1/x':
-                return inverse(a,b);
-            case 'log':
-                return logaritm(a,b);                
-        }
-        secondTerm='';
-    } else {
-// sdfasd need a temp operation to store previous one
-        console.log('perru perrington');
-        if (operation=='-'){
-            return operation='+';
-        }else if (operation == '+'){
-            return operation='-';
-        };          
-    } 
+    switch (operation){
+        case '+':
+            return sum(a,b);
+        case '-':
+            return rest(a,b);
+        case 'x':
+            return multiply(a,b);
+        case '/':
+            return divide(a,b);
+        case '%':
+            return porcentage(a,b);
+        case 'Sqrt':
+            return sqRoot(a,b);        
+        case 'Pow':
+            return pow(a,b);
+        case '1/x':
+            return inverse(a,b);
+        case 'log':
+            return logaritm(a,b);                
+    }secondTerm='';             
 }
 
 function sum(a,b) {
@@ -157,5 +152,22 @@ function clear(){
     updateDisplay();
 }
 
+function change() {
+    console.log('perru perrington');
+    if (operation=='-'){
+        operation='+';
+    }else if (operation == '+'){
+        operation='-';
+    }updateDisplay();           
+}
 
-
+function del(){
+    if (!secondTerm && !operation ){
+        firstTerm = firstTerm.slice(0,-1);
+    } else if (!secondTerm){
+        operation='';
+    } else {
+        secondTerm = secondTerm.slice(0,-1);
+    }
+    updateDisplay();
+}
