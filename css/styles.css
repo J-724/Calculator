@@ -12,7 +12,6 @@ body{
     color: rgb(124, 135, 160);
 }
 
-
 .calc-frame{
     border: 3px solid rgb(207, 207, 207);
     border-radius:18px;
@@ -40,6 +39,7 @@ body{
 
     text-align: right;
 }
+
 
 .buttons-container{
     display: flex;
